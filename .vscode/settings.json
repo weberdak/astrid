@@ -1,0 +1,17 @@
+{
+    "editor.rulers": [88,120],
+    "editor.renderWhitespace": "all",
+    "[rust]": {
+        "editor.tabSize": 4,
+        "editor.detectIndentation": false,
+        "editor.insertSpaces": true,
+        "editor.formatOnSave": false,
+        "editor.defaultFormatter": "rust-lang.rust-analyzer"
+    },
+    "cSpell.language": "en-AU",
+    "cSpell.words": [
+        "getters",
+        "nalgebra",
+        "normalize"
+    ]
+}

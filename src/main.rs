@@ -1,3 +1,8 @@
+mod matrix_a;
+mod helix;
+use helix::Helix;
+
 fn main() {
-    println!("Hello, world!");
+    let helix = Helix::new();
+    println!("{:?}", helix.matrix_a);
 }

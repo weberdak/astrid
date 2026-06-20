@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "oderwat.indent-rainbow",
+        "njpwerner.autodocstring",
+        "rust-lang.rust-analyzer",
+        "ryanluker.vscode-coverage-gutters",
+        "serayuzgur.crates",
+        "streetsidesoftware.code-spell-checker",
+        "streetsidesoftware.code-spell-checker-australian-english",
+    ]
+}
