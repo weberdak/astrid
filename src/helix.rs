@@ -58,4 +58,28 @@ impl Helix {
         helix.matrix_a = generate_matrix_a(&helix);
         helix
     }
+
+    /// Create a new Helix with parameters used in original 
+    /// derivation by Denny et al. (2001), 10.1006/jmre.2001.2405.
+    pub fn from_denny() -> Self {
+        let mut helix = Self {
+            tilt: 35.0_f64.to_radians(),
+            rotation: -10.0_f64.to_radians(),
+            order: 1.0,
+            flip: 0.0_f64.to_radians(),
+            phi: -65.0_f64.to_radians(),
+            psi: -40.0_f64.to_radians(),
+            beta: 17.0_f64.to_radians(),
+            ca_c_n: 115.0_f64.to_radians(),
+            c_n_ca: 121.0_f64.to_radians(),
+            n_ca_c: 110.0_f64.to_radians(),
+            ca_n_h: 117.0_f64.to_radians(),
+            ca_c: 1.53,
+            c_n: 1.34,
+            n_ca: 1.45,
+            matrix_a: Matrix3::zeros(), // Placeholder
+        };
+        helix.matrix_a = generate_matrix_a(&helix);
+        helix
+    }
 }
