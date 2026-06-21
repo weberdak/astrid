@@ -4,5 +4,5 @@ use helix::Helix;
 
 fn main() {
     let helix = Helix::new();
-    println!("{:?}", helix.matrix_a);
+    println!("Matrix A: {:?}", helix.matrix_a);
 }
