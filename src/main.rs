@@ -1,5 +1,5 @@
-mod matrix_a;
 mod helix;
+mod matrix_a;
 use helix::Helix;
 
 fn main() {

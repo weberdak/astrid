@@ -59,7 +59,7 @@ impl Helix {
         helix
     }
 
-    /// Create a new Helix with parameters used in original 
+    /// Create a new Helix with parameters used in original
     /// derivation by Denny et al. (2001), 10.1006/jmre.2001.2405.
     pub fn from_denny() -> Self {
         let mut helix = Self {
