@@ -11,8 +11,9 @@
     },
     "cSpell.language": "en-AU",
     "cSpell.words": [
-        "getters",
+        "bicelle",
         "nalgebra",
         "normalize"
-    ]
+    ],
+    "rust-analyzer.check.command": "clippy"
 }
