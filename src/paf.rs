@@ -9,6 +9,7 @@ use nalgebra::{Matrix3, Vector3};
 /// * `params` - The parameters for the calculation
 /// * `matrix_a` - Rotation matrix relating the principal axes frame (PAF) of the
 ///   chemical shift tensor to the helical axis frame (HAF)
+#[inline]
 pub fn calc_paf_coords(
     rotation: f64,
     params: &Params,

@@ -2,6 +2,7 @@ use crate::params::Params;
 use nalgebra::Vector3;
 
 /// Calculate the oriented 15N chemical shift in ppm
+#[inline]
 pub fn calc_shift(params: &Params, paf_coords: &Vector3<f64>) -> f64 {
     // Value without factoring in order or flip angle.
     let raw = params.delta_xx * paf_coords.x.powi(2)
@@ -11,6 +12,7 @@ pub fn calc_shift(params: &Params, paf_coords: &Vector3<f64>) -> f64 {
 }
 
 /// Calculate the oriented 15N-1H dipolar coupling in kHz
+#[inline]
 pub fn calc_dipolar_coupling(params: &Params, paf_coords: &Vector3<f64>) -> f64 {
     params.coupling
         * 0.5
