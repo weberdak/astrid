@@ -18,22 +18,32 @@ fn r3(angle: f64) -> Matrix3<f64> {
 
 /// Generate matrix A relating the principal axes frame (PAF) of the chemical shift
 /// tensor to the helical axis frame (HAF).
-pub fn generate_matrix_a(h: &Params) -> Matrix3<f64> {
+///
+/// # Arguments
+/// * `params` - Fixed input parameters for the calculation
+pub fn calc_matrix_a(params: &Params) -> Matrix3<f64> {
     // Precompute angles
-    let e_alpha = PI - h.ca_c_n;
-    let e_beta = PI - h.c_n_ca;
-    let e_gamma = PI - h.n_ca_c;
+    let e_alpha = PI - params.ca_c_n;
+    let e_beta = PI - params.c_n_ca;
+    let e_gamma = PI - params.n_ca_c;
     let omega = PI;
 
     // Compute v
     let v = Vector3::new(
-        h.c_n * e_beta.cos() + h.ca_c * (e_alpha - e_beta).cos() + h.n_ca,
-        h.c_n * -e_beta.sin() + h.ca_c * (e_alpha - e_beta).sin(),
+        params.c_n * e_beta.cos()
+            + params.ca_c * (e_alpha - e_beta).cos()
+            + params.n_ca,
+        params.c_n * -e_beta.sin() + params.ca_c * (e_alpha - e_beta).sin(),
         0.0,
     );
 
     // Combined rotation
-    let c = r3(e_beta) * r1(omega) * r3(e_alpha) * r1(h.psi) * r3(e_gamma) * r1(h.phi);
+    let c = r3(e_beta)
+        * r1(omega)
+        * r3(e_alpha)
+        * r1(params.psi)
+        * r3(e_gamma)
+        * r1(params.phi);
 
     // Extract axis components
     let a = Vector3::new(
@@ -54,7 +64,7 @@ pub fn generate_matrix_a(h: &Params) -> Matrix3<f64> {
     let haf = Matrix3::from_columns(&[r, a.cross(&r), a]).transpose();
 
     // Build R3 for final transform
-    let r3 = r3(h.beta + h.ca_n_h);
+    let r3 = r3(params.beta + params.ca_n_h);
 
     // Build permutation matrix for final transform
     let perm = Matrix3::new(0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0);
@@ -68,7 +78,14 @@ mod tests {
     use super::*;
     use crate::params::Params;
 
-    fn mismatch(i: usize, j: usize, got: f64, want: f64, diff: f64, tol: f64) -> String {
+    fn mismatch(
+        i: usize,
+        j: usize,
+        got: f64,
+        want: f64,
+        diff: f64,
+        tol: f64,
+    ) -> String {
         format!(
             "Mismatch at ({}, {}):\n\
             got = {:>10.6}\n\
@@ -82,7 +99,7 @@ mod tests {
     #[test]
     fn test_denny() {
         let params = Params::from_denny();
-        let m = generate_matrix_a(&params);
+        let m = calc_matrix_a(&params);
 
         // Paper matrix (row-major)
         let paper = [
