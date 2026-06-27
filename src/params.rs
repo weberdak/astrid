@@ -1,8 +1,5 @@
-use crate::matrix_a::generate_matrix_a;
-use nalgebra::Matrix3;
-
-/// Parameter class for alpha-helix geometry and dynamics.
-pub struct Helix {
+/// Parameter class for all user-defines inputs.
+pub struct Params {
     /// Helical tilt angle in radians (0-pi/2)
     pub tilt: f64,
     /// Helical rotation angle at reference residue in radians (0-pi/2)
@@ -31,14 +28,13 @@ pub struct Helix {
     pub c_n: f64,
     /// N-CA bond length in angstroms
     pub n_ca: f64,
-    /// Matrix A for the helix
-    pub matrix_a: Matrix3<f64>,
 }
 
-impl Helix {
-    /// Create a new Helix with default parameters.
+impl Params {
+    /// Create with default parameters from Weber et al. (2020)
+    /// https://doi.org/10.1093/bioinformatics/btaa019
     pub fn new() -> Self {
-        let mut helix = Self {
+        Self { 
             tilt: 20.0_f64.to_radians(),
             rotation: 0.0_f64.to_radians(),
             order: 1.0,
@@ -53,16 +49,13 @@ impl Helix {
             ca_c: 1.52,
             c_n: 1.35,
             n_ca: 1.45,
-            matrix_a: Matrix3::zeros(), // Placeholder
-        };
-        helix.matrix_a = generate_matrix_a(&helix);
-        helix
+        }
     }
 
-    /// Create a new Helix with parameters used in original
-    /// derivation by Denny et al. (2001), 10.1006/jmre.2001.2405.
+    /// Create with parameters from original derivation by Denny et al. (2001)
+    /// https://doi.org/10.1006/jmre.2001.2405
     pub fn from_denny() -> Self {
-        let mut helix = Self {
+        Self {
             tilt: 35.0_f64.to_radians(),
             rotation: -10.0_f64.to_radians(),
             order: 1.0,
@@ -77,9 +70,6 @@ impl Helix {
             ca_c: 1.53,
             c_n: 1.34,
             n_ca: 1.45,
-            matrix_a: Matrix3::zeros(), // Placeholder
-        };
-        helix.matrix_a = generate_matrix_a(&helix);
-        helix
+        }
     }
 }

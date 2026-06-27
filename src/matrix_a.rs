@@ -1,4 +1,4 @@
-use crate::helix::Helix;
+use crate::params::Params;
 use nalgebra::{Matrix3, Vector3};
 use std::f64::consts::PI;
 
@@ -18,7 +18,7 @@ fn r3(angle: f64) -> Matrix3<f64> {
 
 /// Generate matrix A relating the principal axes frame (PAF) of the chemical shift
 /// tensor to the helical axis frame (HAF).
-pub fn generate_matrix_a(h: &Helix) -> Matrix3<f64> {
+pub fn generate_matrix_a(h: &Params) -> Matrix3<f64> {
     // Precompute angles
     let e_alpha = PI - h.ca_c_n;
     let e_beta = PI - h.c_n_ca;
@@ -66,7 +66,7 @@ pub fn generate_matrix_a(h: &Helix) -> Matrix3<f64> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::helix::Helix;
+    use crate::params::Params;
 
     fn mismatch(i: usize, j: usize, got: f64, want: f64, diff: f64, tol: f64) -> String {
         format!(
@@ -81,8 +81,8 @@ mod tests {
 
     #[test]
     fn test_denny() {
-        let helix = Helix::from_denny();
-        let m = generate_matrix_a(&helix);
+        let params = Params::from_denny();
+        let m = generate_matrix_a(&params);
 
         // Paper matrix (row-major)
         let paper = [

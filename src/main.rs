@@ -1,8 +1,9 @@
-mod helix;
+mod params;
 mod matrix_a;
-use helix::Helix;
+use params::Params;
 
 fn main() {
-    let helix = Helix::new();
-    println!("Matrix A: {:?}", helix.matrix_a);
+    let params = Params::new();
+    let matrix_a = matrix_a::generate_matrix_a(&params);
+    println!("Matrix A: {:?}", matrix_a);
 }
