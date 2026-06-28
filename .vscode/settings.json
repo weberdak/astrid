@@ -13,7 +13,8 @@
     "cSpell.words": [
         "bicelle",
         "nalgebra",
-        "normalize"
+        "normalize",
+        "rmsd",
     ],
     "rust-analyzer.check.command": "clippy"
 }
