@@ -4,8 +4,8 @@ use crate::residue::{self, Residue, ResidueData};
 use nalgebra::Matrix3;
 
 /// A wheel of residues with experimental and simulated peaks
-/// 
-/// Methods provide for dynamic and efficient recalculation of simulated peaks and RMSD 
+///
+/// Methods provide for dynamic and efficient recalculation of simulated peaks and RMSD
 /// when parameters are changed one at a time.
 pub struct Wheel {
     /// Parameters for the simulation
