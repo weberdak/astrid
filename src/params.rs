@@ -1,4 +1,5 @@
 /// Parameter class for all fixed user-defined inputs.
+#[derive(Clone, Debug)]
 pub struct Params {
     /// Helical tilt angle in radians (0-π/2)
     pub tilt: f64,
@@ -108,8 +109,8 @@ impl Params {
     }
 
     /// Set flip angle in degrees and recalculate the scalar factor
-    pub fn update_flip_angle(&mut self, flip_angle: f64) {
-        self.flip = flip_angle.to_radians();
+    pub fn update_flip_angle(&mut self, flip_angle_deg: f64) {
+        self.flip = flip_angle_deg.to_radians();
         self.scalar = 0.5 * (3.0 * self.flip.cos().powi(2) - 1.0) * self.order;
     }
 
@@ -117,5 +118,23 @@ impl Params {
     pub fn update_order_parameter(&mut self, order: f64) {
         self.order = order;
         self.scalar = 0.5 * (3.0 * self.flip.cos().powi(2) - 1.0) * self.order;
+    }
+
+    /// Set the δxx component of the 15N CSA tensor and recalculate the isotropic shift
+    pub fn update_delta_xx(&mut self, delta_xx: f64) {
+        self.delta_xx = delta_xx;
+        self.shift_iso = (self.delta_xx + self.delta_yy + self.delta_zz) / 3.0;
+    }
+
+    /// Set the δyy component of the 15N CSA tensor and recalculate the isotropic shift
+    pub fn update_delta_yy(&mut self, delta_yy: f64) {
+        self.delta_yy = delta_yy;
+        self.shift_iso = (self.delta_xx + self.delta_yy + self.delta_zz) / 3.0;
+    }
+
+    /// Set the δzz component of the 15N CSA tensor and recalculate the isotropic shift
+    pub fn update_delta_zz(&mut self, delta_zz: f64) {
+        self.delta_zz = delta_zz;
+        self.shift_iso = (self.delta_xx + self.delta_yy + self.delta_zz) / 3.0;
     }
 }
