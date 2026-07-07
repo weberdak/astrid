@@ -25,7 +25,7 @@ jobs:
         run: cargo llvm-cov --all-features --cobertura --output-path cob.xml
 
       - name: Generate Detailed Coverage Report
-        run: python3 scripts/render-coverage-rust.py cob.xml rust-coverage-report.md
+        run: python3 scripts/render-rust-coverage.py cob.xml rust-coverage-report.md
 
       - name: Write to Job Summary
         run: cat rust-coverage-report.md >> $GITHUB_STEP_SUMMARY
@@ -34,7 +34,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: coverage-results
+          name: rust-coverage-results
           path: |
             cob.xml
             rust-coverage-report.md
