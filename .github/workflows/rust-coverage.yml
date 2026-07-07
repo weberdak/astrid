@@ -21,9 +21,11 @@ jobs:
       - name: Install cargo-llvm-cov
         run: cargo install cargo-llvm-cov
 
+      - name: Create coverage directory
+        run: mkdir -p coverage
+
       - name: Generate Rust Coverage (Cobertura XML)
         run: cargo llvm-cov --all-features --cobertura --output-path coverage/rust.xml
-        continue-on-error: true
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
@@ -35,6 +37,7 @@ jobs:
 
       - name: Generate Detailed Coverage Report
         run: python3 scripts/render-rust-coverage.py coverage/rust.xml coverage/rust-coverage-report.md
+        continue-on-error: true
 
       - name: Write to Job Summary
         run: cat coverage/rust-coverage-report.md >> $GITHUB_STEP_SUMMARY
