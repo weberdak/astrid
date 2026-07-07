@@ -21,14 +21,23 @@ jobs:
       - name: Install cargo-llvm-cov
         run: cargo install cargo-llvm-cov
 
-      - name: Generate Cobertura XML Report
-        run: cargo llvm-cov --all-features --cobertura --output-path cob.xml
+      - name: Generate Rust Coverage (Cobertura XML)
+        run: cargo llvm-cov --all-features --cobertura --output-path coverage/rust.xml
+        continue-on-error: true
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/rust.xml
+          flags: rust
+          fail_ci_if_error: false
+          verbose: true
 
       - name: Generate Detailed Coverage Report
-        run: python3 scripts/render-rust-coverage.py cob.xml rust-coverage-report.md
+        run: python3 scripts/render-rust-coverage.py coverage/rust.xml coverage/rust-coverage-report.md
 
       - name: Write to Job Summary
-        run: cat rust-coverage-report.md >> $GITHUB_STEP_SUMMARY
+        run: cat coverage/rust-coverage-report.md >> $GITHUB_STEP_SUMMARY
 
       - name: Upload coverage artifacts
         if: always()
@@ -36,6 +45,6 @@ jobs:
         with:
           name: rust-coverage-results
           path: |
-            cob.xml
-            rust-coverage-report.md
+            coverage/rust.xml
+            coverage/rust-coverage-report.md
           if-no-files-found: warn

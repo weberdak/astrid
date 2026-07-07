@@ -1,6 +1,6 @@
 # Astrid
 
-![Rust Coverage](https://github.com/weberdak/pisapy/actions/workflows/coverage.yml/badge.svg)
+[![Rust Codecov](https://codecov.io/gh/weberdak/astrid/branch/main/graph/badge.svg)](https://codecov.io/gh/weberdak/astrid)
 
 A high-performance tool for simulating PISA wheels and fitting them to oriented solid-state NMR data from transmembrane α-helical peptides and proteins.
 
