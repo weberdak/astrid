@@ -17,21 +17,18 @@ def parse_cobertura(xml_path: str) -> Dict:
     # Get overall stats
     coverage = root.attrib
     overall_line_rate = float(coverage.get('line-rate', 0)) * 100
-    overall_branch_rate = float(coverage.get('branch-rate', 0)) * 100
     
     # Extract per-package data
     packages = {}
     for package in root.findall('.//package'):
         pkg_name = package.attrib.get('name', 'unknown')
         pkg_line_rate = float(package.attrib.get('line-rate', 0)) * 100
-        pkg_branch_rate = float(package.attrib.get('branch-rate', 0)) * 100
         
         classes_data = []
         for cls in package.findall('.//class'):
             cls_name = cls.attrib.get('name', 'unknown')
             cls_filename = cls.attrib.get('filename', '')
             cls_line_rate = float(cls.attrib.get('line-rate', 0)) * 100
-            cls_branch_rate = float(cls.attrib.get('branch-rate', 0)) * 100
             
             # Extract line and method counts
             lines_covered = 0
@@ -45,20 +42,17 @@ def parse_cobertura(xml_path: str) -> Dict:
                 'name': cls_name,
                 'filename': cls_filename,
                 'line_rate': cls_line_rate,
-                'branch_rate': cls_branch_rate,
                 'lines_covered': lines_covered,
                 'lines_total': lines_total,
             })
         
         packages[pkg_name] = {
             'line_rate': pkg_line_rate,
-            'branch_rate': pkg_branch_rate,
             'classes': classes_data,
         }
     
     return {
         'overall_line_rate': overall_line_rate,
-        'overall_branch_rate': overall_branch_rate,
         'packages': packages,
     }
 
@@ -80,13 +74,12 @@ def generate_markdown(coverage_data: Dict) -> str:
     
     # Overall summary
     lines.append("## Overall Coverage\n")
-    lines.append(f"- **Line Coverage**: {coverage_data['overall_line_rate']:.2f}%")
-    lines.append(f"- **Branch Coverage**: {coverage_data['overall_branch_rate']:.2f}%\n")
+    lines.append(f"- **Line Coverage**: {coverage_data['overall_line_rate']:.2f}%\n")
     
     # Per-module breakdown
     lines.append("## Per-Module Coverage\n")
-    lines.append("| Module | Line Coverage | Branch Coverage | Lines |")
-    lines.append("|--------|---|---|---|")
+    lines.append("| Module | Line Coverage | Lines |")
+    lines.append("|--------|---|---|")
     
     # Sort modules by line coverage (descending)
     modules_data: List[Tuple[str, Dict]] = []
@@ -103,7 +96,6 @@ def generate_markdown(coverage_data: Dict) -> str:
                         name,
                         {
                             'line_rate': max(data['line_rate'], cls['line_rate']),
-                            'branch_rate': max(data['branch_rate'], cls['branch_rate']),
                             'lines_covered': data['lines_covered'] + cls['lines_covered'],
                             'lines_total': data['lines_total'] + cls['lines_total'],
                         }
@@ -114,7 +106,6 @@ def generate_markdown(coverage_data: Dict) -> str:
             if not found:
                 modules_data.append((module_name, {
                     'line_rate': cls['line_rate'],
-                    'branch_rate': cls['branch_rate'],
                     'lines_covered': cls['lines_covered'],
                     'lines_total': cls['lines_total'],
                 }))
@@ -126,7 +117,6 @@ def generate_markdown(coverage_data: Dict) -> str:
         lines.append(
             f"| `{module_name}` | "
             f"{data['line_rate']:.1f}% | "
-            f"{data['branch_rate']:.1f}% | "
             f"{data['lines_covered']}/{data['lines_total']} |"
         )
     
