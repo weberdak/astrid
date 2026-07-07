@@ -29,3 +29,13 @@ jobs:
 
       - name: Write to Job Summary
         run: cat rust-coverage-report.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload coverage artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-results
+          path: |
+            cob.xml
+            rust-coverage-report.md
+          if-no-files-found: warn
