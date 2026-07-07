@@ -12,9 +12,12 @@
     "cSpell.language": "en-AU",
     "cSpell.words": [
         "bicelle",
+        "bilayer",
+        "customisable",
         "nalgebra",
         "normalize",
         "rmsd",
+        "transmembrane",
     ],
     "rust-analyzer.check.command": "clippy"
 }
