@@ -70,7 +70,7 @@ def generate_markdown(coverage_data: Dict) -> str:
     """Generate markdown report from coverage data."""
     lines = []
     
-    lines.append("# Code Coverage Report\n")
+    lines.append("# Rust Code Coverage Report\n")
     
     # Overall summary
     lines.append("## Overall Coverage\n")
